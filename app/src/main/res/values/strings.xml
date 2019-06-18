@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ExtractInfoFromGithub</string>
+
+    <string name="has_issues">true</string>
 </resources>
