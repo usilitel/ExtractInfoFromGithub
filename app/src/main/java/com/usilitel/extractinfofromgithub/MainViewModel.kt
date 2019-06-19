@@ -2,6 +2,7 @@ package com.usilitel.extractinfofromgithub
 
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
+import com.usilitel.extractinfofromgithub.uimodels.Repository
 
 
 /*
@@ -35,8 +36,9 @@ class MainViewModel : ViewModel() {
 //    val isLoading = ObservableField<Boolean>()
     val text = ObservableField("old data")
     val isLoading = ObservableField(false)
+    var repositories = ArrayList<Repository>()
 
-    fun refresh(){
+/*    fun refresh(){
         isLoading.set(true)
         repoModel.refreshData(object : OnDataReadyCallback {
             override fun onDataReady(data: String) {
@@ -45,5 +47,17 @@ class MainViewModel : ViewModel() {
                 println("222")
             }
         })
+    }*/
+
+    fun loadRepositories(){
+        isLoading.set(true)
+        repoModel.getRepositories(object : OnRepositoryReadyCallback{
+            override fun onDataReady(data: ArrayList<Repository>) {
+                isLoading.set(false)
+                repositories = data
+            }
+        })
     }
+
+
 }

@@ -5,10 +5,11 @@ import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.widget.LinearLayoutManager
 import com.usilitel.extractinfofromgithub.databinding.ActivityMainBinding
 import com.usilitel.extractinfofromgithub.uimodels.Repository
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RepositoryRecyclerViewAdapter.OnItemClickListener {
 
 /*
 https://habr.com/ru/post/341602/
@@ -54,12 +55,21 @@ https://github.com/googlesamples
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        //binding.viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        binding.viewModel = viewModel
         binding.executePendingBindings()
+
+        binding.repositoryRv.layoutManager = LinearLayoutManager(this)
+        binding.repositoryRv.adapter = RepositoryRecyclerViewAdapter(viewModel.repositories, this)
 
 //        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 //        binding.viewModel = mainViewModel
 //        binding.executePendingBindings()
 
+    }
+
+    override fun onItemClick(position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
