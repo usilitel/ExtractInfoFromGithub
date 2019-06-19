@@ -1,5 +1,6 @@
 package com.usilitel.extractinfofromgithub
 
+import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -18,11 +19,13 @@ https://github.com/googlesamples
 
     lateinit var binding: ActivityMainBinding
 
-    var repository = Repository(
-        "Habrahabr Android Repository Article","Fleka", 1000, true
-    )
+    //var mainViewModel = MainViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+//    var repository = Repository(
+//        "Habrahabr Android Repository Article","Fleka", 1000, true
+//    )
+
+/*    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //setContentView(R.layout.activity_main)
@@ -44,6 +47,19 @@ https://github.com/googlesamples
             //binding.executePendingBindings()
 
         }, 2000)
+
+    }*/
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        binding.executePendingBindings()
+
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+//        binding.viewModel = mainViewModel
+//        binding.executePendingBindings()
 
     }
 }
