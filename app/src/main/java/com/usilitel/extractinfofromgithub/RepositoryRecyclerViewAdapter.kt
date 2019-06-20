@@ -1,6 +1,7 @@
 package com.usilitel.extractinfofromgithub
 
 
+import android.arch.lifecycle.Observer
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -42,4 +43,11 @@ class RepositoryRecyclerViewAdapter(private var items: ArrayList<Repository>,
             binding.executePendingBindings()
         }
     }
+
+    fun replaceData(repositories: ArrayList<Repository>) {
+        items = repositories
+    }
+
+
+
 }

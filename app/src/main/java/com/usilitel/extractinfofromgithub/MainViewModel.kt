@@ -1,5 +1,6 @@
 package com.usilitel.extractinfofromgithub
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
 import com.usilitel.extractinfofromgithub.uimodels.Repository
@@ -34,9 +35,10 @@ class MainViewModel : ViewModel() {
     var repoModel: RepoModel = RepoModel()
 //    val text = ObservableField<String>()
 //    val isLoading = ObservableField<Boolean>()
-    val text = ObservableField("old data")
+    //val text = ObservableField("old data")
     val isLoading = ObservableField(false)
-    var repositories = ArrayList<Repository>()
+    //var repositories = ArrayList<Repository>()
+    var repositories = MutableLiveData<ArrayList<Repository>>()
 
 /*    fun refresh(){
         isLoading.set(true)
@@ -54,7 +56,8 @@ class MainViewModel : ViewModel() {
         repoModel.getRepositories(object : OnRepositoryReadyCallback{
             override fun onDataReady(data: ArrayList<Repository>) {
                 isLoading.set(false)
-                repositories = data
+                //repositories = data
+                repositories.value = data
             }
         })
     }

@@ -1,5 +1,6 @@
 package com.usilitel.extractinfofromgithub
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
@@ -10,7 +11,7 @@ import com.usilitel.extractinfofromgithub.databinding.ActivityMainBinding
 import com.usilitel.extractinfofromgithub.uimodels.Repository
 
 class MainActivity : AppCompatActivity(), RepositoryRecyclerViewAdapter.OnItemClickListener {
-
+//class MainActivity : LifecycleActivity(), RepositoryRecyclerViewAdapter.OnItemClickListener {
 /*
 https://habr.com/ru/post/341602/
 извлекает все репозитории пользователя googlesamples из GitHub,
@@ -18,38 +19,8 @@ https://habr.com/ru/post/341602/
 https://github.com/googlesamples
 */
 
-    lateinit var binding: ActivityMainBinding
+/*    lateinit var binding: ActivityMainBinding
 
-    //var mainViewModel = MainViewModel()
-
-//    var repository = Repository(
-//        "Habrahabr Android Repository Article","Fleka", 1000, true
-//    )
-
-/*    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //setContentView(R.layout.activity_main)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        //binding.repositoryName.text = "Modern Android Habrahabr Article"
-//        binding.apply {
-//            repositoryName.text = "Medium Android Repository Article"
-//            repositoryOwner.text = "Fleka"
-//            numberOfStarts.text = "1000 stars"
-//        }
-
-        binding.repository = repository
-        binding.executePendingBindings()
-
-        Handler().postDelayed({
-            repository.repositoryName="New Name"
-            //binding.repository = repository
-            //binding.executePendingBindings()
-
-        }, 2000)
-
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +32,33 @@ https://github.com/googlesamples
         binding.executePendingBindings()
 
         binding.repositoryRv.layoutManager = LinearLayoutManager(this)
-        binding.repositoryRv.adapter = RepositoryRecyclerViewAdapter(viewModel.repositories, this)
+        binding.repositoryRv.adapter = RepositoryRecyclerViewAdapter(viewModel.repositories.value, this)
 
 //        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 //        binding.viewModel = mainViewModel
 //        binding.executePendingBindings()
+
+    }
+
+    override fun onItemClick(position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }*/
+
+    private lateinit var binding: ActivityMainBinding
+    private val repositoryRecyclerViewAdapter = RepositoryRecyclerViewAdapter(arrayListOf(), this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.executePendingBindings()
+
+        binding.repositoryRv.layoutManager = LinearLayoutManager(this)
+        binding.repositoryRv.adapter = repositoryRecyclerViewAdapter
+        viewModel.repositories.observe(this,
+            Observer<ArrayList<Repository>> { it?.let{ repositoryRecyclerViewAdapter.replaceData(it)} })
 
     }
 
